@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-const DEFAULT_BORDER = "- │ ┌ ┐ └ ┘"
+const DEFAULT_BORDER = "-- │ ┌ ┐ └ ┘"
 
 type World struct {
 	Buf *bytes.Buffer
@@ -42,9 +42,9 @@ func (w *World) String() (out string) {
 		var line string
 
 		if y < len(lines) {
-			line = prefix + lines[y] + strings.Repeat(" ", w.Width+2-len(lines[y])) + suffix
+			line = prefix + lines[y] + strings.Repeat("\u3000", w.Width-len([]rune(lines[y]))) + suffix
 		} else {
-			line = prefix + strings.Repeat(" ", w.Width) + suffix
+			line = prefix + strings.Repeat("\u3000", w.Width) + suffix
 		}
 
 		out += line + "\n"
