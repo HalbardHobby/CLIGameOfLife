@@ -2,35 +2,34 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"bufio"
 	"bytes"
 	"os"
 )
 
-var nWorldWidth, nWorldHeight int = 120, 40
+var nWorldWidth, nWorldHeight int = 50, 25
 
 var Output *bufio.Writer = bufio.NewWriter(os.Stdout)
 
 var Screen *bytes.Buffer = new(bytes.Buffer)
 
 func main() {
-	Clear() // Clear current screen
+	w := NewWorld(nWorldWidth, nWorldHeight)
 
 	for {
-		fmt.Fprintln(Screen, "Current Time:", time.Now().Format(time.RFC1123))
+		Clear()
+		fmt.Fprint(w, "Holi, 😸")
+		fmt.Fprintln(Screen, w)
 		WriteConsoleOutputFrame()
 	}
 }
 
 func Clear() {
-	Output.WriteString("\033[2J")
+	Output.WriteString("\033c")
 }
 
 func WriteConsoleOutputFrame() {
-	fmt.Fprintf(Screen, "\033[%d;%dH", 1, 1)
-
 	Output.WriteString(Screen.String())
 
 	Output.Flush()
