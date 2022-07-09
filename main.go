@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
-
 	"bufio"
 	"bytes"
+	"fmt"
 	"os"
+	"time"
 )
 
-const nWorldWidth, nWorldHeight int = 15, 10
-const empty, alive rune = '\u3000', '😸'
+const nWorldWidth, nWorldHeight int = 85, 40
 
 var Output *bufio.Writer = bufio.NewWriter(os.Stdout)
 var Screen *bytes.Buffer = new(bytes.Buffer)
@@ -20,8 +19,12 @@ func main() {
 	s.SetRandomState()
 
 	for {
+		fmt.Fprint(w, s.Render())
 		fmt.Fprintln(Screen, w)
 		WriteConsoleOutputFrame()
+
+		s.IterateState()
+		time.Sleep(time.Second / 10)
 	}
 }
 
