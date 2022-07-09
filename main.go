@@ -8,18 +8,18 @@ import (
 	"os"
 )
 
-var nWorldWidth, nWorldHeight int = 50, 25
+const nWorldWidth, nWorldHeight int = 15, 10
+const empty, alive rune = '\u3000', '😸'
 
 var Output *bufio.Writer = bufio.NewWriter(os.Stdout)
-
 var Screen *bytes.Buffer = new(bytes.Buffer)
 
 func main() {
 	w := NewWorld(nWorldWidth, nWorldHeight)
+	s := InitState()
+	s.SetRandomState()
 
 	for {
-		Clear()
-		fmt.Fprint(w, "Holi, 😸")
 		fmt.Fprintln(Screen, w)
 		WriteConsoleOutputFrame()
 	}
@@ -30,6 +30,7 @@ func Clear() {
 }
 
 func WriteConsoleOutputFrame() {
+	Clear()
 	Output.WriteString(Screen.String())
 
 	Output.Flush()
