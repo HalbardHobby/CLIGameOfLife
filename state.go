@@ -20,8 +20,8 @@ func InitState() *State {
 }
 
 func (s *State) GetTotalNeighbors(x, y int) (total int) {
-	for i := x - 1; i < x+1; i++ { // check neighbouring cells
-		for j := y - 1; j < y+1; j++ {
+	for j := x - 1; j < x+1; j++ { // check neighbouring cells
+		for i := y - 1; i < y+1; i++ {
 			// Check if current coordinate is beyond border
 			if !(j < 0 || i < 0 || j >= nWorldWidth || i >= nWorldHeight) {
 				// Check if not given coordinates
@@ -32,4 +32,19 @@ func (s *State) GetTotalNeighbors(x, y int) (total int) {
 		}
 	}
 	return
+}
+
+func (s *State) IterateState() {
+	for j := 0; j < nWorldHeight; j++ {
+		for i := 0; i < nWorldWidth; i++ {
+			neighbors := s.GetTotalNeighbors(i, j)
+			if s.CurrentState[j*nWorldWidth+i] {
+				s.NextState[j*nWorldWidth+i] = neighbors >= 2 && neighbors <= 3
+			} else {
+				s.NextState[j*nWorldWidth+i] = neighbors == 3
+			}
+		}
+	}
+
+	s.CurrentState, s.NextState = s.NextState, s.CurrentState
 }
