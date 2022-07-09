@@ -1,5 +1,10 @@
 package main
 
+import (
+	"math/rand"
+	"time"
+)
+
 type State struct {
 	State_0, State_1        [nWorldHeight * nWorldWidth]bool
 	CurrentState, NextState []bool
@@ -47,4 +52,11 @@ func (s *State) IterateState() {
 	}
 
 	s.CurrentState, s.NextState = s.NextState, s.CurrentState
+}
+
+func (s *State) SetRandomState() {
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < nWorldWidth*nWorldHeight; i++ {
+		s.CurrentState[i] = rand.Intn(3) == 1
+	}
 }
